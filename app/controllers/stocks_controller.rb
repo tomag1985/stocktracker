@@ -1,12 +1,16 @@
 class StocksController < ApplicationController
 
 	def create
-		@stock = Stock.new(stock_params)
-		@stock.user = current_user
-		if @stock.save
-			flash[:notice] = "Article saved!"
-		end
+		stock = Stock.find_or_create_by(stock_params)
+		UserStock.create(stock: stock, user: current_user)
+		flash[:notice] = 'Stock saved!' if stock.save
 	end
+
+  def destroy
+    stock = Stock.find(stock_params)
+		userstock = UserStock.find(stock: stock, user: current_user)
+    userstock.destroy
+  end
 
   def search
     if params[:stock].present?
@@ -29,5 +33,11 @@ class StocksController < ApplicationController
       end
 =end
     end
+  end
+
+  private
+
+  def stock_params
+    params.require(:stock).permit(:ticker, :name, :last_price)
   end
 end

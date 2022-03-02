@@ -9,13 +9,20 @@
     <strong>Last price: </strong> $<%= @stock.last_price %>
 
     <% if current_user.stocks.exists?(ticker: @stock.ticker) %>
-      <%= button_tag type: :submit, class: "btn btn-success" do %>
-        <%= fa_icon 'star' %>
-      <% end %>
-    <% else %>
-      <%= button_tag type: :submit, class: "btn btn-danger" do %>
+      <%= button_tag method: :delete, class: "btn btn-danger" do %>
         <%= fa_icon 'trash' %>
       <% end %>
+    <% else %>
+      <%= form_for @stock do |f| %>
+        <%= f.hidden_field :ticker, value: @stock.ticker %>
+        <%= f.hidden_field :name, value: @stock.name %>
+        <%= f.hidden_field :last_price, value: @stock.last_price %>
+        <%= button_tag type: :submit, class: "btn btn-success" do %>
+          <%= fa_icon 'star' %>
+        <% end %>
+      <% end %>
+
     <% end %>
+
   </div>
 <% end %>
