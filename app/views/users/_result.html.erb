@@ -9,11 +9,10 @@
     <strong>Last price: </strong> $<%= @stock.last_price %>
 
     <% if current_user.stocks.exists?(ticker: @stock.ticker) %>
-      <%= button_tag method: :delete, class: "btn btn-danger" do %>
-        <%= fa_icon 'trash' %>
-      <% end %>
+      <%= button_to "Delete Image", :url => url_for(:controller => 'user_stocks', :action => 'destroy'), method: :delete %>
+
     <% else %>
-      <%= form_for @stock do |f| %>
+      <%= form_for @stock, :url => url_for(:controller => 'user_stocks', :action => 'create') do |f| %>
         <%= f.hidden_field :ticker, value: @stock.ticker %>
         <%= f.hidden_field :name, value: @stock.name %>
         <%= f.hidden_field :last_price, value: @stock.last_price %>
