@@ -7,9 +7,8 @@ class UserStocksController < ApplicationController
   end
 
   def destroy
-    stock = Stock.find(stock_params)
-		userstock = UserStock.find(stock: stock, user: current_user)
-		flash[:notice] = 'Stock saved!' if userstock.destroy
+		userstock = UserStock.find_by(stock_id: params[:id], user_id: params[:user_id])
+		flash[:alert] = 'Stock removed!' if userstock.destroy
   end
 
   private
