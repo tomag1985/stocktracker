@@ -15,7 +15,10 @@
             <th scope="row"><%= stock.ticker %></th>
             <td><%= stock.name %></td>
             <td><%= stock.last_price %></td>
-            <td><%= 'Action placeholder' %></td>
+
+            <td>
+              <%= button_to "delete", {:controller => :user_stocks, :action => 'destroy', :id => stock.id }, :method => :delete, params: { user_id: current_user.id } %>
+            </td>
           </tr>
         <% end %>
       </tbody>

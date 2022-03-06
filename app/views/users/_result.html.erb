@@ -6,19 +6,29 @@
   <div class="card card-header results-block">
     <strong>Symbol: </strong> <%= @stock.ticker %>
     <strong>Name: </strong> <%= @stock.name %>
-    <strong>Last price: </strong> <%= @stock.last_price %>
+    <strong>Last price: </strong> $<%= @stock.last_price %>
 
-<!--
-ESTO ME ROMPE EL SEARCH.. tengo que pensar aca como chequear si la stock existe.. en caso de existir tengo que agregarle un nuevo user
-    <%= form_tag search_stock_path, remote: true, method: :get do %>
-      <%= button_tag type: :submit, class: "btn btn-info" do %>
-        <%= fa_icon 'star' %>
-        <%= link_to("Add", new_user_stock, method: :create, class: "delete_button")  %>
+    <% if current_user.stocks.exists?(ticker: @stock.ticker) %>
+      <%= form_for @stock, :url => url_for(:controller => 'user_stocks', :action => 'destroy') do |f| %>
+        <%= f.hidden_field :ticker, value: @stock.ticker %>
+        <%= f.hidden_field :name, value: @stock.name %>
+        <%= f.hidden_field :last_price, value: @stock.last_price %>
+        <%= button_tag type: :destroy, class: "btn btn-danger" do %>
+          <%= fa_icon 'trash' %>
+        <% end %>
       <% end %>
-      <%= button_tag type: :submit, class: "btn btn-danger" do %>
-        <%= fa_icon 'trash' %>
+
+    <% else %>
+      <%= form_for @stock, :url => url_for(:controller => 'user_stocks', :action => 'create') do |f| %>
+        <%= f.hidden_field :ticker, value: @stock.ticker %>
+        <%= f.hidden_field :name, value: @stock.name %>
+        <%= f.hidden_field :last_price, value: @stock.last_price %>
+        <%= button_tag type: :submit, class: "btn btn-success" do %>
+          <%= fa_icon 'star' %>
+        <% end %>
       <% end %>
+
     <% end %>
--->
+
   </div>
 <% end %>

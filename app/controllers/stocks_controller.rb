@@ -1,13 +1,5 @@
 class StocksController < ApplicationController
-
-	def create
-		@stock = Stock.new(stock_params)
-		@stock.user = current_user
-		if @stock.save
-			flash[:notice] = "Article saved!"
-		end
-	end
-
+  
   def search
     if params[:stock].present?
       @stock = Stock.new_lookup(params[:stock])
@@ -29,5 +21,11 @@ class StocksController < ApplicationController
       end
 =end
     end
+  end
+
+  private
+
+  def stock_params
+    params.require(:stock).permit(:ticker, :name, :last_price)
   end
 end
