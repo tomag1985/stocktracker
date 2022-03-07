@@ -4,19 +4,22 @@
 
 <% if @stock %>
   <div class="card card-header results-block">
-    <strong>Symbol: </strong> <%= @stock.ticker %>
-    <strong>Name: </strong> <%= @stock.name %>
-    <strong>Last price: </strong> $<%= @stock.last_price %>
+    <div class="info mb-2">
+      <strong>Symbol: </strong> <%= @stock.ticker %>
+      <strong>Name: </strong> <%= @stock.name %>
+      <strong>Last price: </strong> $<%= @stock.last_price %>
+    </div>
 
     <% if current_user.stocks.exists?(ticker: @stock.ticker) %>
-      <%= button_to "delete", {:controller => :user_stocks, :action => 'destroy', :id => Stock.find_by(ticker: @stock.ticker).id }, :method => :delete, params: { user_id: current_user.id } %>
+      <%= button_to "Remove", {:controller => :user_stocks, :action => 'destroy', :id => Stock.find_by(ticker: @stock.ticker).id }, :method => :delete, params: { user_id: current_user.id }, class: "btn btn-danger w-100" %>
+
     <% else %>
       <%= form_for @stock, :url => url_for(:controller => 'user_stocks', :action => 'create') do |f| %>
         <%= f.hidden_field :ticker, value: @stock.ticker %>
         <%= f.hidden_field :name, value: @stock.name %>
         <%= f.hidden_field :last_price, value: @stock.last_price %>
-        <%= button_tag type: :submit, class: "btn btn-success" do %>
-          <%= fa_icon 'star' %>
+        <%= button_tag type: :submit, class: "btn btn-success w-100" do %>
+          Add
         <% end %>
       <% end %>
 
