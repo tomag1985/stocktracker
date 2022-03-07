@@ -1,0 +1,22 @@
+<div class="row">
+  <div class="col-9">
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th scope="col">User</th>
+          <th scope="col"># Stocks followed</th>
+          <th scope="col">Friend</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @users.each do |user| %>
+          <tr>
+            <td><%= user.email.split('@').first %></td>
+            <td><%= pluralize(user.stocks.count, "stock") %></td>
+            <td>Friend?</td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
