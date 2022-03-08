@@ -7,7 +7,9 @@
           <th scope="col">Name</th>
           <th scope="col">Price</th>
           <th scope="col">Followed by</th>
-          <th scope="col">Actions</th>
+          <% unless params[:id] %>
+            <th scope="col">Actions</th>
+          <% end %>
         </tr>
       </thead>
       <tbody>
@@ -18,9 +20,11 @@
             <td>$<%= Stock.new_lookup(stock.ticker).last_price %></td>
             <td><%= pluralize(stock.users.count, 'user') %> </td>
 
-            <td>
-              <%= button_to "Remove", {:controller => :user_stocks, :action => 'destroy', :id => stock.id }, :method => :delete, params: { user_id: current_user.id }, class: "btn btn-danger w-100" %>
-            </td>
+            <% unless params[:id] %>
+              <td>
+                <%= button_to "Remove", {:controller => :user_stocks, :action => 'destroy', :id => stock.id }, :method => :delete, params: { user_id: current_user.id }, class: "btn btn-danger w-100" %>
+              </td>
+            <% end %>
           </tr>
         <% end %>
       </tbody>

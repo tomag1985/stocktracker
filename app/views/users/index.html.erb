@@ -1,0 +1,24 @@
+<div class="row">
+  <div class="col-9">
+    <table class="table table-bordered table-hover">
+      <thead>
+        <tr>
+          <th scope="col">User</th>
+          <th scope="col"># Stocks followed</th>
+          <th scope="col">Portfolio detail</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @users.each do |user| %>
+          <% unless user == current_user %>
+            <tr>
+              <td><%= user.email.split('@').first %></td>
+              <td><%= pluralize(user.stocks.count, "stock") %></td>
+              <td><%= link_to "Profile", user_path(user)  %></td>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
