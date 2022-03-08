@@ -5,7 +5,7 @@
         <tr>
           <th scope="col">User</th>
           <th scope="col"># Stocks followed</th>
-          <th scope="col">Friend</th>
+          <th scope="col">Portfolio detail</th>
         </tr>
       </thead>
       <tbody>
@@ -13,7 +13,7 @@
           <tr>
             <td><%= user.email.split('@').first %></td>
             <td><%= pluralize(user.stocks.count, "stock") %></td>
-            <td>Friend?</td>
+            <td><%= link_to "Profile", user_path(user)  %></td>
           </tr>
         <% end %>
       </tbody>

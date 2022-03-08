@@ -1,0 +1,7 @@
+<h1><%= @user.email.split('@').first.capitalize %>'s portfolio</h1>
+
+<% unless @tracked_stocks.empty? %>
+  <%= render 'stocks/list' %>
+<% end %>
+
+<%= link_to "Back to users", users_path %>
