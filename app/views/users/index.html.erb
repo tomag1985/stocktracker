@@ -10,11 +10,13 @@
       </thead>
       <tbody>
         <% @users.each do |user| %>
-          <tr>
-            <td><%= user.email.split('@').first %></td>
-            <td><%= pluralize(user.stocks.count, "stock") %></td>
-            <td><%= link_to "Profile", user_path(user)  %></td>
-          </tr>
+          <% unless user == current_user %>
+            <tr>
+              <td><%= user.email.split('@').first %></td>
+              <td><%= pluralize(user.stocks.count, "stock") %></td>
+              <td><%= link_to "Profile", user_path(user)  %></td>
+            </tr>
+          <% end %>
         <% end %>
       </tbody>
     </table>
