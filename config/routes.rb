@@ -7,5 +7,5 @@ Rails.application.routes.draw do
   get 'search_stock', to: 'stocks#search'
 
   resources :users, only: [:index, :show]
-  resources :stocks, only: [:create]
+  resources :stocks, only: [:index, :create]
 end
