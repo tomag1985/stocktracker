@@ -1,4 +1,8 @@
 class StocksController < ApplicationController
+
+  def index
+    @stocks = Stock.all
+  end
   
   def search
     if params[:stock].present?
