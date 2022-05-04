@@ -9,10 +9,8 @@
       <strong>Name: </strong> <%= @stock.name %>
       <strong>Last price: </strong> $<%= @stock.last_price %>
     </div>
-
     <% if current_user.stocks.exists?(ticker: @stock.ticker) %>
       <%= button_to "Remove", {:controller => :user_stocks, :action => 'destroy', :id => Stock.find_by(ticker: @stock.ticker).id }, :method => :delete, params: { user_id: current_user.id }, class: "btn btn-danger w-100" %>
-
     <% else %>
       <%= form_for @stock, :url => url_for(:controller => 'user_stocks', :action => 'create') do |f| %>
         <%= f.hidden_field :ticker, value: @stock.ticker %>
@@ -22,8 +20,6 @@
           Add
         <% end %>
       <% end %>
-
     <% end %>
-
   </div>
 <% end %>

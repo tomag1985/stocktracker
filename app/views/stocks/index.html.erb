@@ -7,6 +7,7 @@
           <th><%= link_to "Name", :sort => "name"%> </th>
           <th scope="col">Price</th>
           <th scope="col">Followed by</th>
+          <th scope="col">Add / remove</th>
         </tr>
       </thead>
       <tbody>
@@ -17,6 +18,21 @@
               <td><%= stock.name %></td>
               <td>$<%= Stock.new_lookup(stock.ticker).last_price %></td>
               <td><%= pluralize(stock.users.count, 'user') %></td>
+
+              <td>
+                <% if current_user.stocks.exists?(ticker: stock.ticker) %>
+                  <%= button_to "Remove", {:controller => :user_stocks, :action => 'destroy', :id => Stock.find_by(ticker: stock.ticker).id }, :method => :delete, params: { user_id: current_user.id }, class: "btn btn-danger w-100" %>
+                <% else %>
+                  <%= form_for stock, :url => {:action => "update", :id => stock, :controller => "user_stocks"} do |f| %>
+                    <%= f.hidden_field :ticker, value: stock.ticker %>
+                    <%= f.hidden_field :name, value: stock.name %>
+                    <%= f.hidden_field :last_price, value: stock.last_price %>
+                    <%= button_tag type: :submit, class: "btn btn-success w-100" do %>
+                      Add
+                    <% end %>
+                  <% end %>
+                <% end %>
+              </td>
             </tr>
           <% end %>
         <% end %>
