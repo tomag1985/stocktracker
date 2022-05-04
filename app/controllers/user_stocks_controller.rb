@@ -19,4 +19,14 @@ class UserStocksController < ApplicationController
 
     flash[:alert] = 'Stock removed!' if userstock.destroy
   end
+
+  def update
+    stock = Stock.find(params[:id])
+
+    user_stock = UserStock.new(stock: stock, user: current_user)
+
+    redirect_back(fallback_location: root_path)
+
+    flash[:notice] = 'Stock saved!' if user_stock.save
+  end
 end
