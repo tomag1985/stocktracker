@@ -6,9 +6,7 @@
           <th scope="col">Ticker</th>
           <th scope="col">Name</th>
           <th scope="col">Price</th>
-          <% unless params[:id] %>
-            <th scope="col">Actions</th>
-          <% end %>
+          <th scope="col">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -17,7 +15,25 @@
             <th scope="row"><%= stock.ticker %></th>
             <td><%= stock.name %></td>
             <td>$<%= Stock.new_lookup(stock.ticker).last_price %></td>
-            <% unless params[:id] %>
+            <% if params[:id] %>
+
+              <% if current_user.stocks.exists?(ticker: stock.ticker) %>
+                <td>
+                  <%= button_to "Remove", {:controller => :user_stocks, :action => 'destroy', :id => Stock.find_by(ticker: stock.ticker).id }, :method => :delete, params: { user_id: current_user.id }, class: "btn btn-danger w-100" %>
+                </td>
+              <% else %>
+                <td>
+                  <%= form_for stock, :url => {:action => "update", :id => stock, :controller => "user_stocks"} do |f| %>
+                    <%= f.hidden_field :ticker, value: stock.ticker %>
+                    <%= f.hidden_field :name, value: stock.name %>
+                    <%= f.hidden_field :last_price, value: stock.last_price %>
+                    <%= button_tag type: :submit, class: "btn btn-success w-100" do %>
+                      Add
+                    <% end %>
+                  <% end %>
+                </td>
+              <% end %>
+            <% else %>
               <td>
                 <%= button_to "Remove", {:controller => :user_stocks, :action => 'destroy', :id => stock.id }, :method => :delete, params: { user_id: current_user.id }, class: "btn btn-danger w-100" %>
               </td>
