@@ -1,7 +1,7 @@
 class StocksController < ApplicationController
 
   def index
-    @stocks = Stock.all
+    @stocks = Stock.order(params[:sort])
   end
   
   def search
